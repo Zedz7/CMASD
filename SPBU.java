@@ -1,8 +1,8 @@
 import java.util.Scanner;
-public class main {
+public class SPBU {
     public static void main(String[] args) {
         AntrianLinkedList antrian = new AntrianLinkedList();
-        TransaksiPengisian transaksi = new TransaksiPengisian();
+        QueueTransaksi riwayat = new QueueTransaksi(100);
         Scanner sc = new Scanner(System.in);
         int pilihan;
 
@@ -53,21 +53,20 @@ public class main {
                         sc.nextLine(); 
                         
                         BBM bbm = new BBM(namaBBM, hargaPerLiter);
-                        double totalBayar = hargaPerLiter * jumlahLiter;
-
-                        transaksi.tambahTransaksi(kendaraan, bbm, jumlahLiter, totalBayar);
-
+                        TransaksiPengisian tr = new TransaksiPengisian(kendaraan, bbm, jumlahLiter);
+                        riwayat.inputTransaksi(tr);
                         System.out.println(">> Transaksi berhasil dicatat.");
                     }
                     break;
                 }
                 case 5 -> {
-                    transaksi.tampilkanTransaksi();
+                    riwayat.tampilkanRiwayat();
                     break;
                 }
                 case 0 -> System.out.println("Terima kasih!");
                 default -> System.out.println("Menu tidak valid, silakan coba lagi.");
             }
         } while (pilihan != 0);
+        sc.close();
     }
 }
