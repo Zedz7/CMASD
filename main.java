@@ -2,6 +2,7 @@ import java.util.Scanner;
 public class main {
     public static void main(String[] args) {
         AntrianLinkedList antrian = new AntrianLinkedList();
+        TransaksiPengisian transaksi = new TransaksiPengisian();
         Scanner sc = new Scanner(System.in);
         int pilihan;
 
@@ -40,10 +41,29 @@ public class main {
                     break;
                 }
                 case 4 -> {
+                    Kendaraan kendaraan = antrian.layaniKendaraan();
+                    if (kendaraan != null) {
+                        System.out.println("Petugas melayani " + kendaraan.platNomor);
+                        System.out.print("Masukkan Jenis BBM: ");
+                        String namaBBM = sc.nextLine();
+                        System.out.print("Masukkan harga per liter: ");
+                        double hargaPerLiter = sc.nextDouble();
+                        System.out.print("Masukkan Jumlah liter: ");
+                        double jumlahLiter = sc.nextDouble();
+                        sc.nextLine(); 
+                        
+                        BBM bbm = new BBM(namaBBM, hargaPerLiter);
+                        double totalBayar = hargaPerLiter * jumlahLiter;
 
+                        transaksi.tambahTransaksi(kendaraan, bbm, jumlahLiter, totalBayar);
+
+                        System.out.println(">> Transaksi berhasil dicatat.");
+                    }
+                    break;
                 }
                 case 5 -> {
-                    
+                    transaksi.tampilkanTransaksi();
+                    break;
                 }
                 case 0 -> System.out.println("Terima kasih!");
                 default -> System.out.println("Menu tidak valid, silakan coba lagi.");

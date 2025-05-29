@@ -15,4 +15,7 @@ public class Kendaraan {
         System.out.println("Tipe: " + tipe);
         System.out.println("Merk: " + merk);
     }
+    public String getPlatNomor() {
+        return platNomor;
+    }
 }

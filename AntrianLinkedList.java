@@ -42,4 +42,17 @@ public class AntrianLinkedList {
     public int jumlahAntrian(){
         return size;
     }
+    public Kendaraan layaniKendaraan() {
+        if (isEmpty()) {
+            System.out.println("Antrian kosong, tidak ada kendaraan untuk dilayani.");
+            return null;
+        }
+        Kendaraan kendaraan = head.data;
+        head = head.next;
+        size--;
+        if (isEmpty()) {
+            tail = null;
+        }
+        return kendaraan;
+    }
 }
