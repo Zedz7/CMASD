@@ -1,11 +1,12 @@
 import java.util.Scanner;
 public class main {
     public static void main(String[] args) {
+        AntrianLinkedList antrian = new AntrianLinkedList();
         Scanner sc = new Scanner(System.in);
         int pilihan;
 
         do { 
-            System.out.println("--- Menu SPBU ---");
+            System.out.println("\n--- Menu SPBU ---");
             System.out.println("1. Tambah Antrian Kendaraaan");
             System.out.println("2. Tampilkan Antrian");
             System.out.println("3. Cek Jumlah Antrian");
@@ -18,18 +19,25 @@ public class main {
 
             switch(pilihan) {
                 case 1 -> {
-                    System.out.print("Masukkan Plat Nomor           : ");
+                    System.out.print("Masukkan Plat Nomor         : ");
                     String plat = sc.nextLine();
-                    System.out.println("Masukkan Jenis Kendaraan    : ");
+                    System.out.print("Masukkan Jenis Kendaraan    : ");
                     String jenis = sc.nextLine();
-                    System.out.println("Masukkan Merk Kendaraan     : ");
+                    System.out.print("Masukkan Merk Kendaraan     : ");
                     String merk  = sc.nextLine();
+                    
+                    Kendaraan kendaraan = new Kendaraan(plat, jenis, merk);
+                    antrian.enqueue(kendaraan);
+                    System.out.println(">> Kendaraan masuk ke dalam antrian.");
+                    break;
                 }
                 case 2 -> {
-
+                    antrian.print();
+                    break;
                 }
                 case 3 -> {
-
+                    System.out.println(">> Jumlah kendaraan dalam antrian: " + antrian.jumlahAntrian());
+                    break;
                 }
                 case 4 -> {
 
