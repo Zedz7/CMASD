@@ -20,14 +20,27 @@ public class SPBU {
 
             switch(pilihan) {
                 case 1 -> {
+                    String namaJenis;
                     System.out.print("Masukkan Plat Nomor         : ");
                     String plat = sc.nextLine();
-                    System.out.print("Masukkan Jenis Kendaraan    : ");
-                    String jenis = sc.nextLine();
+                    System.out.println("Masukkan Jenis Kendaraan    : ");
+                    System.out.println("1. Mobil");
+                    System.out.println("2. Motor");
+                    System.out.print("Pilih Jenis Kendaraan (1/2): ");
+                    int jenis = sc.nextInt();
+                    sc.nextLine(); 
+                    if (jenis == 1) {
+                        namaJenis = "Mobil";
+                    } else if (jenis == 2) {
+                        namaJenis = "Motor";
+                    } else {
+                        System.out.println("Jenis kendaraan tidak valid. Silakan coba lagi.");
+                        continue;
+                    }
                     System.out.print("Masukkan Merk Kendaraan     : ");
                     String merk  = sc.nextLine();
                     
-                    Kendaraan kendaraan = new Kendaraan(plat, jenis, merk);
+                    Kendaraan kendaraan = new Kendaraan(plat, namaJenis, merk);
                     antrian.enqueue(kendaraan);
                     System.out.println(">> Kendaraan masuk ke dalam antrian.");
                     break;
@@ -41,22 +54,67 @@ public class SPBU {
                     break;
                 }
                 case 4 -> {
-                    Kendaraan kendaraan = antrian.layaniKendaraan();
-                    if (kendaraan != null) {
-                        System.out.println("Petugas melayani " + kendaraan.platNomor);
-                        System.out.print("Masukkan Jenis BBM: ");
-                        String namaBBM = sc.nextLine();
-                        System.out.print("Masukkan harga per liter: ");
-                        double hargaPerLiter = sc.nextDouble();
-                        System.out.print("Masukkan Jumlah liter: ");
-                        double jumlahLiter = sc.nextDouble();
-                        sc.nextLine(); 
-                        
-                        BBM bbm = new BBM(namaBBM, hargaPerLiter);
-                        TransaksiPengisian tr = new TransaksiPengisian(kendaraan, bbm, jumlahLiter);
-                        riwayat.inputTransaksi(tr);
-                        System.out.println(">> Transaksi berhasil dicatat.");
+                    if (antrian.isEmpty()) {
+                        System.out.println(">> Tidak ada kendaraan dalam antrian.");
+                        return;
                     }
+
+                    int pilihanBBM;
+                    Kendaraan kendaraan = antrian.layaniKendaraan();
+                    System.out.println("Petugas melayani " + kendaraan.platNomor);
+                    
+                    do {
+                        System.out.println("\n-- Pilih Jenis BBM --");
+                        System.out.println("1. Pertalite - Rp 10.000/liter");
+                        System.out.println("2. Pertamax - Rp 12.000/liter");
+                        System.out.println("3. Solar - Rp 14.000/liter");
+                        System.out.println("0. Kembali ke Menu Utama");
+                        System.out.print("Pilihan BBM: ");
+                        pilihanBBM = sc.nextInt();
+                        
+                        if (pilihanBBM == 0) {
+                            return;
+                        }
+                        
+                        if (pilihanBBM < 1 || pilihanBBM > 3) {
+                            System.out.println(">> Pilihan tidak valid. Silakan pilih 1-3.");
+                        }
+                    } while (pilihanBBM < 1 || pilihanBBM > 3);
+
+                    String namaBBM = "";
+                    double hargaPerLiter = 0;
+                    
+                    switch(pilihanBBM) {
+                        case 1:
+                            namaBBM = "Pertalite";
+                            hargaPerLiter = 10000;
+                            break;
+                        case 2:
+                            namaBBM = "Pertamax";  
+                            hargaPerLiter = 12000;
+                            break;
+                        case 3:
+                            namaBBM = "Solar";
+                            hargaPerLiter = 14000;
+                            break;
+                    }
+                    
+                    double liter = 0;
+                    while (true) {
+                        System.out.print("Masukkan jumlah liter: ");
+                        liter = sc.nextDouble();
+
+                        if (liter <= 0) {
+                            System.out.println(">> Jumlah liter tidak valid. Silakan coba lagi.");
+                        } else {
+                            break;
+                        }
+                    }
+
+                    BBM bbm = new BBM(namaBBM, hargaPerLiter);
+                    TransaksiPengisian transaksi = new TransaksiPengisian(kendaraan, bbm, liter);
+                    riwayat.inputTransaksi(transaksi);
+                    System.out.println(">> Transaksi berhasil dilayani.");
                     break;
                 }
                 case 5 -> {
